@@ -10,6 +10,7 @@ C8 boolean - isHistoric : '1', if this alternate name is historic and was used i
 
 # type
 alter table alternateNamesV2
+    change C1 pk int not null,
     change C2 id int not null,
     change C3 iso varchar(7) null,
     change C4 name varchar(400) not null,
@@ -19,6 +20,7 @@ alter table alternateNamesV2
     change C8 h boolean null;
 
 # index
+create index pk on alternateNamesV2 (pk);
 create index id on alternateNamesV2 (id);
 
 # iso
@@ -49,15 +51,6 @@ update alternateNamesV2
 set p = 0
 where p is null;
 
-update alternateNamesV2
-set p = 2
-where p = 1;
-
-insert into alternateNamesV2 (id, iso, name, p)
-select id, null, name, 1
+insert into alternateNamesV2 (pk, id, iso, name, p)
+select 0, id, 'en', name, 0
 from allCountries;
-
-
-select *
-from allCountries
-where id not in (select id from alternateNamesV2);

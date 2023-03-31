@@ -14,6 +14,5 @@ C10 varchar(30) - to : to period when the name was used
 */
 
 alter table alternateNamesV2
-    drop column C1,
     drop column C9,
     drop column C10;
