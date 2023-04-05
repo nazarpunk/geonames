@@ -19,26 +19,20 @@ alter table alternateNamesV2
     change C7 c boolean null,
     change C8 h boolean null;
 
-# index
+# index @formatter:off
 create index pk on alternateNamesV2 (pk);
 create index id on alternateNamesV2 (id);
 
 # iso
 create index iso on alternateNamesV2 (iso);
-delete
-from alternateNamesV2
-where iso not in ('en', 'ru', 'uk');
+delete from alternateNamesV2 where iso not in ('en', 'ru', 'uk') or iso is null;
 
 # boolean
 create index s on alternateNamesV2 (s);
 create index c on alternateNamesV2 (c);
 create index h on alternateNamesV2 (h);
 
-delete
-from alternateNamesV2
-where s
-   or c
-   or h;
+delete from alternateNamesV2 where s or c or h;
 
 alter table alternateNamesV2
     drop column s,
@@ -47,10 +41,4 @@ alter table alternateNamesV2
 
 #p
 create index p on alternateNamesV2 (p);
-update alternateNamesV2
-set p = 0
-where p is null;
-
-insert into alternateNamesV2 (pk, id, iso, name, p)
-select 0, id, 'en', name, 0
-from allCountries;
+update alternateNamesV2 set p = 0 where p is null;

@@ -1,3 +1,5 @@
+# noinspection SqlWithoutWhereForFile
+
 /*
 C1 int - id : id of record in geonames database
 C2 varchar(200) - name : name of geographical point (utf8)
@@ -22,30 +24,23 @@ alter table allCountries
     change C13 a3 varchar(20) null,
     change C14 a4 varchar(20) null;
 
-# is country
-alter table allCountries
-    add co boolean default false not null after iso;
+# is country @formatter:off
+alter table allCountries add co boolean default false not null after iso;
 create index co on allCountries (co);
 
-# noinspection SqlWithoutWhere
-update allCountries as ac
-set ac.co = exists(select 1 from countryInfo where id = ac.id);
-
+update allCountries as ac set ac.co = exists(select 1 from countryInfo where id = ac.id);
 
 # index
 create index id on allCountries (id);
 create index iso on allCountries (fc);
+create index iso_fc_a1 on allCountries (iso,fc,a1);
 
 # fc
 create index fc on allCountries (fc);
-delete
-from allCountries
-where fc is null
-   or fc not in ('A', 'P');
-alter table allCountries
-    modify fc char(1) not null;
+delete from allCountries where fc is null or fc not in ('A', 'P');
+alter table allCountries modify fc char(1) not null;
 
-# f
+# f @formatter:on
 create index f on allCountries (f);
 delete
 from allCountries
