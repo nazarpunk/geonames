@@ -1,39 +1,28 @@
-# noinspection SqlWithoutWhereForFile
-
-/*
-C1 int - id : id of record in geonames database
-C2 varchar(200) - name : name of geographical point (utf8)
-C7 char(1) - feature class : see http://www.geonames.org/export/codes.html
-C8 varchar(10) - feature code : see http://www.geonames.org/export/codes.html
-C9 char(2) - country code : ISO-3166 2-letter country code, 2 characters
-C11 varchar(20) - admin1 code       : fipscode (subject to change to iso code), see exceptions below, see file admin1Codes.txt for display names of this code
-C12 varchar(80) - admin2 code       : code for the second administrative division, a county in the US, see file admin2Codes.txt
-C13 varchar(20) - admin3 code       : code for third level administrative division
-C14 varchar(20) -  admin4 code       : code for fourth level administrative division
- */
-
-# type
 alter table allCountries
-    change C1 id int not null,
-    change C2 name varchar(200) not null,
-    change C7 fc char(1) null,
-    change C8 f varchar(10) null,
-    change C9 iso char(2) null,
-    change C11 a1 varchar(20) null,
-    change C12 a2 varchar(80) null,
-    change C13 a3 varchar(20) null,
-    change C14 a4 varchar(20) null;
+    drop column C3,
+    drop column C4,
+    drop column C5,
+    drop column C6,
+    drop column C10,
+    drop column C15,
+    drop column C16,
+    drop column C17,
+    drop column C18,
+    drop column C19
+;
 
 # is country @formatter:off
 alter table allCountries add co boolean default false not null after iso;
 create index co on allCountries (co);
 
-update allCountries as ac set ac.co = exists(select 1 from countryInfo where id = ac.id);
-
 # index
 create index id on allCountries (id);
-create index iso on allCountries (fc);
+create index co_iso on allCountries (co, iso);
+create index iso on allCountries (iso);
 create index iso_fc_a1 on allCountries (iso,fc,a1);
+
+# co
+update allCountries as ac set ac.co = exists(select 1 from countryInfo where id = ac.id) where true;
 
 # fc
 create index fc on allCountries (fc);

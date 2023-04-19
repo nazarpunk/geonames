@@ -4,14 +4,14 @@
 delete from alternateNamesV2 as n where not exists(select 1 from allCountries where id = n.id) or iso is null;
 
 # Киев
-update allCountries set a1 = 13 where iso = 'UA' and a1 = 12;
+update allCountries set a1 = 13 where iso = 'UA' and a1 = 12 and fc='P';
 delete from allCountries where id = 703447;
 delete from alternateNamesV2 where id = 703447;
 
 delete from alternateNamesV2 where pk = 7841982; # Киевская область
 
 # Севастополь
-update allCountries set a1 = 11 where iso = 'UA' and a1 = 20;
+update allCountries set a1 = 11 where iso = 'UA' and a1 = 20 and fc='P';
 delete from allCountries where id = 694422;
 delete from alternateNamesV2 where id = 694422;
 
