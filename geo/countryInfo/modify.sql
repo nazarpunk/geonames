@@ -1,6 +1,3 @@
-drop table if exists countryInfo;
-
-# create
 alter table countryInfo
     change geonameid id int not null first,
     change `#ISO` iso char(2) not null,
@@ -19,10 +16,5 @@ alter table countryInfo
     drop column `Postal Code Format`,
     drop column `Postal Code Regex`,
     drop column `Languages`,
-    drop column `EquivalentFipsCode`;
-
-# index
-
-select *
-from allCountries as ac
-where ac.id in (select id from countryInfo);
+    drop column `EquivalentFipsCode`,
+    drop column `neighbours`;

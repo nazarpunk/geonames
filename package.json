@@ -6,5 +6,8 @@
   "author": "nazarpunk",
   "contributors": [],
   "license": "UNLICENSED",
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "mysql2": "^3.2.4"
+  }
 }

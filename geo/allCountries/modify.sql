@@ -1,8 +1,6 @@
 alter table allCountries
     drop column C3,
     drop column C4,
-    drop column C5,
-    drop column C6,
     drop column C10,
     drop column C15,
     drop column C16,
